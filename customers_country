@@ -1,0 +1,16 @@
+WITH
+  ana AS (
+  SELECT
+    DISTINCT a.user_id,
+    n.country country
+  FROM
+    bigquery-public-data.thelook_ecommerce.order_items AS a
+  INNER JOIN
+    bigquery-public-data.thelook_ecommerce.users AS n
+  ON
+    a.user_id = n.id
+  WHERE
+    a.status NOT IN ('Cancelled',
+      'Returned')
+  GROUP BY
+    user_id
