@@ -1,0 +1,15 @@
+SELECT
+  ROUND(SUM(a.sale_price*num_of_item),2) revenue,
+  DATE(a.created_at) date_ordered,
+  COUNT(DISTINCT(n.user_id)) unique_users
+FROM
+  bigquery-public-data.thelook_ecommerce.order_items a
+INNER JOIN
+  bigquery-public-data.thelook_ecommerce.orders n
+ON
+  a.order_id = n.order_id
+WHERE
+  a.status NOT IN ("Cancelled",
+    "Returned")
+GROUP BY
+  date_ordered
